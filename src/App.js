@@ -4,8 +4,8 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Get your Covid-19 information here</h1>
+    <div className="App-header">
+      <h1 className="font-mono tracking-widest dark:text-pink-500">All your Covid-19 information here</h1>
       <Summary/>
     </div>
   );

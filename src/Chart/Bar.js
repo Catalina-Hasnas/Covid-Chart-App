@@ -1,25 +1,19 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Bar } from "react-chartjs-2";
+import { iterateObject } from '../services/const';
 
 const BarChart = ({ chartDataProps }) => {
 
     const [ChartData, setChartData] = useState({});
 
     useEffect(() => {
-        let keys = [];
-        let values = [];
-        for (const [key, value] of Object.entries(chartDataProps)) {
-            keys = [...keys, key];
-            values= [... values, value];
-        }
-        console.log(keys);
-        console.log(values);
+        
         setChartData({
-          labels: keys,
+          labels: iterateObject(chartDataProps).keys,
           datasets: [
             {
               label: "Nr of people",
-              data: values,
+              data: iterateObject(chartDataProps).values,
               backgroundColor: [
                 "#ffbb11",
                 "#ecf0f1",
