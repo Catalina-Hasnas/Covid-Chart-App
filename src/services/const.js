@@ -1,18 +1,20 @@
 export const iterateObject = (obj, separate) => {
     let keys = [];
     let values = [];
+    if (separate) {
+        return Object.entries(obj)
+    }
     for (const [key, value] of Object.entries(obj)) {
         keys = [...keys, key];
         values = [...values, value];
-    }
-    if (separate) {
-        return Object.entries(obj)
     }
     return { 
         keys: keys,
         values: values 
     }
 }
+
+// formats a string of type: "NewCasesToday" in "New Cases Today"
 
 export const formatString = (str) => {
 
@@ -22,7 +24,7 @@ export const formatString = (str) => {
 
     for (var i = 0; i < strArray.length; i++) {
 
-        if (str[i] === str[i].toUpperCase() && i !== 0) {
+        if (i !== 0 && str[i] === str[i].toUpperCase()) {
             capitalLettersIndexes = [...capitalLettersIndexes, i];
         }
     }
@@ -37,4 +39,9 @@ export const formatString = (str) => {
 
 export const formatNumber = (number) => {
     return new Intl.NumberFormat().format(number)
+}
+
+export const formatDate = (date) => {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString("en-US", options);
 }
