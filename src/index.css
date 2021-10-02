@@ -4,7 +4,12 @@
 
 @layer base {
     body {
-      @apply bg-bg;
+      @apply 
+        bg-bg 
+        text-pink-100
+        text-center
+        font-sans
+
     }
     
   }
