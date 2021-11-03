@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import axios from '../services/api';
 import Bar from '../Chart/Bar';
-import { iterateObject, formatString, formatNumber, formatDate } from '../services/const';
+import { iterateObject, formatDate } from '../services/const';
 import { useQuery } from 'react-query';
+import Stat from './stat'
 
 
 const Summary = () => {
@@ -41,8 +42,8 @@ const Summary = () => {
     return (
         <Fragment>
             <div className="w-3/5 mt-5 mx-auto flex justify-around shadow-inner rounded-md">
-                <Stat type = {'summary'} keysValues = {iterateObject(globalInfo, true)}/>
-                <Stat type = {'romaniaSummary'} keysValues = {iterateObject(romaniaInfo, true)}/>
+                <Stat type = {'summary'} keysValues = {iterateObject(globalInfo)}/>
+                <Stat type = {'romaniaSummary'} keysValues = {iterateObject(romaniaInfo)}/>
             </div>
             <p> {dateToday} </p> 
         </Fragment>
@@ -51,19 +52,3 @@ const Summary = () => {
 
 export default Summary
 
-const Stat = (props) => {
-    console.log(props);
-    return (
-        <div className='flex flex-col'>
-            {props.type === 'summary' ? <p> Worldwide: </p> : <p> Romania: </p>}
-            <div className='text-left leading-relaxed ml-12'>
-                {props.keysValues.map((key, index) => (
-                    <div key={index}>
-                        <span className='text-pink-500'> {formatString(key[0])}: </span>
-                        <span> {formatNumber(key[1])} </span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}
