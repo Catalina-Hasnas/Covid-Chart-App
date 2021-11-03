@@ -1,12 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { lazy, Fragment, useState } from 'react';
 import axios from '../services/api';
 import Bar from '../Chart/Bar';
 import { iterateObject, formatDate } from '../services/const';
 import { useQuery } from 'react-query';
 import Stat from './stat'
+import { Link } from 'react-router-dom';
 
 
 const Summary = () => {
+
+    const RomaniaPromise = import ('./romania/romania');
+    const Romania = lazy(()=> RomaniaPromise);
+
+    const [romaniaDisplay, setRomaniaDisplay] = useState(false);
 
     const { data, isLoading, isError, error } = useQuery('summary', async () => { return await axios.get('/summary') });
 
@@ -39,13 +45,26 @@ const Summary = () => {
 
     const dateToday = formatDate(data.data.Global.Date);
 
+    const summaryDisplay = (
+        <Fragment>
+            <Stat type = {'summary'} keysValues = {iterateObject(globalInfo)}/>
+            <Stat type = {'romaniaSummary'} keysValues = {iterateObject(romaniaInfo)}/>
+            <div>
+                <Link to="/Romania" onClick={() => setRomaniaDisplay(true)}>More info on Romania</Link>
+            </div>
+        </Fragment>
+    )
+
+    const dateDisplay = <p> {dateToday} </p> 
+
+
     return (
         <Fragment>
-            <div className="w-3/5 mt-5 mx-auto flex justify-around shadow-inner rounded-md">
-                <Stat type = {'summary'} keysValues = {iterateObject(globalInfo)}/>
-                <Stat type = {'romaniaSummary'} keysValues = {iterateObject(romaniaInfo)}/>
+            <div className="w-3/5 mt-5 mx-auto flex justify-around items-center shadow-inner rounded-md">
+            {romaniaDisplay? <Romania/> : summaryDisplay}
             </div>
-            <p> {dateToday} </p> 
+            {romaniaDisplay? null : dateDisplay}
+
         </Fragment>
     )
 }

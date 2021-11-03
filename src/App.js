@@ -4,15 +4,11 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-const RomaniaPromise = import ('./charts/romania/romania');
 const SummaryPromise = import ('./charts/summary');
-
-const Romania = lazy(()=> RomaniaPromise);
 const Summary = lazy(()=> SummaryPromise);
 
 function App() {
@@ -30,10 +26,10 @@ function App() {
                 defaultMessage='All your Covid-19 information here' />  
             </h1>
               <Switch>
-              <Route path="/Romania">
-                <Romania />
-              </Route>
               <Route path="/">
+                <Summary />
+              </Route>
+              <Route path="/Romania">
                 <Summary />
               </Route>
             </Switch>
