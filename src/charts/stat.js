@@ -1,24 +1,27 @@
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { formatString, formatNumber } from '../services/const';
 
-const Stat = (props) => {
+const Stat = React.memo(({type, keysValues}) => {
+    const renders = useRef(0);
+    console.log('renders:', renders.current++)
+    console.log(type, keysValues);
     return (
         <div className='flex flex-col items-center justify-center p-3'>
-            <p className='font-mono font-bold text-2xl'> {props.type === 'summary' ? 'Worldwide' : 'Romania'} </p>
+            <p className='font-mono font-bold text-2xl'> {type === 'summary' ? 'Worldwide' : 'Romania'} </p>
             <div className='flex items-stretch justify-center text-left'>
                 <div>
-                    {props.keysValues.keys.map((key, index) => (
+                    {keysValues.keys.map((key, index) => (
                         <p className='text-pink-500' key={index}> {formatString(key)}: </p>
                     ))}
                 </div>
                 <div className='ml-5'>
-                    {props.keysValues.values.map((value, index) => (
+                    {keysValues.values.map((value, index) => (
                         <p key={index}> {formatNumber(value)} </p>
                     ))}
                 </div>
             </div>
         </div>
     )
-}
+})
 
 export default Stat

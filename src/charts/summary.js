@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect, useMemo } from 'react';
 import axios from '../services/api';
 import Bar from '../Chart/Bar';
 import { iterateObject, formatDate } from '../services/const';
@@ -8,19 +8,10 @@ import Stat from './stat'
 
 const Summary = () => {
 
-    const { data, isLoading, isError, error } = useQuery('summary', async () => { return await axios.get('/summary') });
-
-    if (isLoading) {
-
-        return <span> Loading... </span>
-        
-    };
-
-    if (isError) {
-
-        return <span> { error.message } </span>
-
-    };
+    const [counter, setCounter] = useState(1);
+    const [globalSummary, setGlobalSummary] = useState({});
+    const [romaniaSummary, setRomaniaSummary] = useState({});
+    const [date, setDate] = useState(0);
 
     const setObjectInfo = (obj) => {
         const properties = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths', 'NewRecovered', 'TotalRecovered'];
@@ -31,21 +22,32 @@ const Summary = () => {
         return result
     };
 
-    const globalInfo = setObjectInfo(data.data.Global);
+    useEffect(() => {
+        const fetchSummary = async () => {
+        const response = await axios.get('/summary');
+        setGlobalSummary(setObjectInfo(response.data.Global));
+        const romaniaData = setObjectInfo(response.data.Countries.find(obj => {
+        return obj.Country === 'Romania'}));
+        setRomaniaSummary(romaniaData);
+        setDate(response.data.Global.Date)
+        
+    };  
+        fetchSummary();
+    }, []);
 
-    const romaniaInfo = setObjectInfo(data.data.Countries.find(obj => {
-        return obj.Country === 'Romania'
-    })); 
+    const memoizedGlobalSummary = useMemo(() => iterateObject(globalSummary), [globalSummary]);
+    const memoizedRomaniaSummary = useMemo(() => iterateObject(romaniaSummary), [romaniaSummary]);
 
-    const dateToday = formatDate(data.data.Global.Date);
 
     return (
         <Fragment>
             <div className="w-3/5 mt-5 mx-auto flex justify-around shadow-inner rounded-md">
-                <Stat type = {'summary'} keysValues = {iterateObject(globalInfo)}/>
-                <Stat type = {'romaniaSummary'} keysValues = {iterateObject(romaniaInfo)}/>
+                <Stat type = {'summary'} keysValues = {memoizedGlobalSummary}/>
+                <Stat type = {'romaniaSummary'} keysValues = {memoizedRomaniaSummary}/>
             </div>
-            <p> {dateToday} </p> 
+            <p> {date} </p> 
+            <button style={{'padding': 20, 'backgroundColor': 'white'}} onClick={() => setCounter( counter => counter+1)}> </button>
+            <p>{counter}</p>
         </Fragment>
     )
 }
