@@ -1,14 +1,15 @@
 export const iterateObject = (obj) => {
-    console.log(obj)
-    let keys = [];
-    let values = [];
-    for (const [key, value] of Object.entries(obj)) {
-        keys = [...keys, key];
-        values = [...values, value];
-    }
-    return { 
-        keys: keys,
-        values: values 
+    if (obj){
+        let keys = [];
+        let values = [];
+        for (const [key, value] of Object.entries(obj)) {
+            keys = [...keys, key];
+            values = [...values, value];
+        }
+        return { 
+            keys: keys,
+            values: values 
+        }
     }
 }
 

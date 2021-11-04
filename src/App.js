@@ -11,6 +11,9 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 const SummaryPromise = import ('./pages/summary/summary');
 const Summary = lazy(()=> SummaryPromise);
 
+const RomaniaPromise = import ('./pages/romania/romania');
+const Romania = lazy(()=> RomaniaPromise);
+
 function App() {
 
   const queryClient = new QueryClient()
@@ -26,10 +29,10 @@ function App() {
                 defaultMessage='All your Covid-19 information here' />  
             </h1>
               <Switch>
-              <Route path="/">
-                <Summary />
-              </Route>
               <Route path="/Romania">
+                <Romania />
+                </Route>
+              <Route path="/">
                 <Summary />
               </Route>
             </Switch>
