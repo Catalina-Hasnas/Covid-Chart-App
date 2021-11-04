@@ -1,4 +1,5 @@
 export const iterateObject = (obj) => {
+    console.log(obj)
     let keys = [];
     let values = [];
     for (const [key, value] of Object.entries(obj)) {

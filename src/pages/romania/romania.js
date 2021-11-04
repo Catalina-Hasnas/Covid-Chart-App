@@ -3,6 +3,7 @@ import { useLocation } from 'react-router';
 import axios from '../../services/api';
 import { useQuery } from 'react-query';
 import { Bar } from "react-chartjs-2";
+import { formatDate } from '../../services/const';
 
 
 const Romania = () => {
@@ -86,10 +87,10 @@ const Romania = () => {
     return (
         <div>
             <Bar 
-                data={chartData} 
-                options={options}
-                height={500}
-                width= {1000}
+              data={chartData} 
+              options={options}
+              height={500}
+              width= {1000}
             />
         </div>
     )

@@ -1,15 +1,14 @@
 import React, { lazy, Fragment, useState } from 'react';
-import axios from '../services/api';
-import Bar from '../Chart/Bar';
-import { iterateObject, formatDate } from '../services/const';
+import axios from '../../services/api';
+import { iterateObject, formatDate } from '../../services/const';
 import { useQuery } from 'react-query';
-import Stat from './stat'
+import Stat from './stat/stat'
 import { Link } from 'react-router-dom';
 
 
 const Summary = () => {
 
-    const RomaniaPromise = import ('./romania/romania');
+    const RomaniaPromise = import ('../romania/romania');
     const Romania = lazy(()=> RomaniaPromise);
 
     const [romaniaDisplay, setRomaniaDisplay] = useState(false);
@@ -29,7 +28,7 @@ const Summary = () => {
     };
 
     const setObjectInfo = (obj) => {
-        const properties = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths', 'NewRecovered', 'TotalRecovered'];
+        const properties = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths'];
         const result = {};
         for (const key of properties) {
             result[key] = obj[key];
@@ -44,6 +43,8 @@ const Summary = () => {
     })); 
 
     const dateToday = formatDate(data.data.Global.Date);
+
+    const getValidCountriesInfo = console.log(data.data.Countries.filter(obj => obj.NewConfirmed !== 0));
 
     const summaryDisplay = (
         <Fragment>
@@ -64,7 +65,7 @@ const Summary = () => {
             {romaniaDisplay? <Romania/> : summaryDisplay}
             </div>
             {romaniaDisplay? null : dateDisplay}
-
+            <button onClick={getValidCountriesInfo}> See </button>
         </Fragment>
     )
 }

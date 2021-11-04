@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { formatString, formatNumber } from '../services/const';
+import { formatString, formatNumber } from '../../../services/const';
 
 const Stat = (props) => {
     return (

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-const SummaryPromise = import ('./charts/summary');
+const SummaryPromise = import ('./pages/summary/summary');
 const Summary = lazy(()=> SummaryPromise);
 
 function App() {
