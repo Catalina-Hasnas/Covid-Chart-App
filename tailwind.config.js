@@ -8,6 +8,12 @@ module.exports = {
       }),
       fontFamily: {
         body: ['Open Sans', 'sans-serif']
+      },
+      boxShadow: {
+        pink: 'inset 0px 0px 6px 1px rgba(236, 72, 153, 0.6)'
+      },
+      width: {
+        '26': 106
       }
     },
   },

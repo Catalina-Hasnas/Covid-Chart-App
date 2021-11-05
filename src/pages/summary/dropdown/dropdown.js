@@ -12,7 +12,7 @@ const Dropdown = ({countries, setActiveCountry}) => {
     return (
         <Menu as="div" className="relative inline-block text-left">
           <div className="mt-3">
-            <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-3 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-pink-500">
+            <Menu.Button className="inline-flex justify-center w-full rounded-md border bg-transparent text-pink-500 border-gray-300 shadow-sm px-3 py-1 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-pink-500">
               Choose a country
               <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
             </Menu.Button>

@@ -28,14 +28,16 @@ function App() {
                 id='app.header'
                 defaultMessage='All your Covid-19 information here' />  
             </h1>
+            <div className="w-9/12 mt-5 pb-3 mx-auto shadow-pink rounded-md">
               <Switch>
-              <Route path="/Romania">
-                <Romania />
+                <Route path="/Romania">
+                  <Romania />
+                  </Route>
+                <Route path="/">
+                  <Summary />
                 </Route>
-              <Route path="/">
-                <Summary />
-              </Route>
-            </Switch>
+              </Switch>
+            </div>
           </main>
         </QueryClientProvider>
         {/* <ReactQueryDevtools initialIsOpen={false}/> */}

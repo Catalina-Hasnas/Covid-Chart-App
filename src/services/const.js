@@ -41,6 +41,6 @@ export const formatNumber = (number) => {
 }
 
 export const formatDate = (date) => {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { month: 'long', day: 'numeric' };
     return new Date(date).toLocaleDateString("en-US", options);
 }
