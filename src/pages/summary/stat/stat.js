@@ -1,9 +1,15 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { formatString, formatNumber } from '../../../services/const';
+import { motion } from 'framer-motion'
 
 const Stat = (props) => {
     return (
-        <div className='flex flex-col items-center justify-center p-3'>
+        <motion.div 
+            initial={{y: -25}}
+            animate={{y: 0}} 
+            transition={{duration: 0.5}}
+            className='flex flex-col items-center justify-center p-3'
+        >
             <p className='font-mono font-bold text-2xl'> {props.type} </p>
             <div className='flex flex-nowrap items-stretch justify-center text-left'>
                 <div>
@@ -17,7 +23,7 @@ const Stat = (props) => {
                     ))}
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
