@@ -7,8 +7,6 @@ const Dropdown = ({countries, setActiveCountry}) => {
     const classNames = (...classes) => {
         return classes.filter(Boolean).join(' ')
     }
-
-    console.log(countries);
     return (
         <Menu as="div" className="relative inline-block text-left">
           <div className="mt-3">
