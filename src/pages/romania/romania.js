@@ -2,14 +2,15 @@ import React, {Fragment} from 'react';
 import { useLocation } from 'react-router';
 import axios from '../../services/api';
 import { useQuery } from 'react-query';
-import { Bar } from "react-chartjs-2";
-import { formatDate } from '../../services/const';
+import { months, years } from '../../services/const';
+import ChartCard from './chartCard/chartCard';
+
 
 
 const Romania = () => {
 
     const { data, isLoading, isError, error } = useQuery('romaniaOctober', async () => { 
-      return await axios.get('/country/Romania/status/confirmed?from=2020-02-01T00:00:00Z&to=2020-12-31T00:00:00Z') 
+      return await axios.get('/country/Romania/status/confirmed?from=2020-02-01T00:00:00Z&to=2021-11-06T00:00:00Z') 
     });
 
     if (isLoading) {
@@ -24,85 +25,84 @@ const Romania = () => {
 
     };
 
-    console.log(data);
-
-    const getAllMonthlyCases = () => {
-      let months = [
-        { name: 'February',
-          nr: 2 },
-        { name: 'March',
-          nr: 3 },
-        { name: 'April',
-          nr: 4 },
-      ];
-      let monthsWithDays = [];
-      months.map((month) => {
-        let oneMonth = {
-          name: month.name, 
-          days: data.data.filter(obj => obj.Date.includes(`2020-0${month.nr}`))
-        };
+    const getCasesByMonth = () => {
+      let yearlyCasesByMonth = [];
+      years.map((year) => {
+        let monthsWithDays = [];
+        months.map((month) => {
+          const monthNumber = month.nr < 10 ? '0'+month.nr : month.nr;
+          let oneMonth = {
+            name: month.name, 
+            days: data.data.filter(obj => obj.Date.includes(`${year}-${monthNumber}`))
+          };
           monthsWithDays = [...monthsWithDays, oneMonth ];
         })
-      return monthsWithDays
-    } 
 
-    console.log(getAllMonthlyCases())
-
-
-    const getDays = () => {
-      let arrOfDays = []
-      data.data.map((day) => {
-        arrOfDays = [...arrOfDays, formatDate(day.Date)]
+        yearlyCasesByMonth = [...yearlyCasesByMonth, {
+          year: year,
+          months: monthsWithDays
+        }]
       })
-      return arrOfDays
-    } 
-
-    const getCases = () => {
-        let arrOfCases = [];
-        data.data.map((day) => {
-          arrOfCases = [...arrOfCases, day.Cases]
-        })
-        return arrOfCases
+      return yearlyCasesByMonth;
     }
 
-    const chartData = {
-      labels: getDays(),
-      datasets: [
-        {
-          label: 'nr of Cases',
-          data: getCases(),
-          backgroundColor:'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-        },
-      ],
-    };
-      
-      const options = {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      };
-      
+    const getMonths = () => {
+      let arrOfMonths = [];
+      months.map((month) => {
+        arrOfMonths = [...arrOfMonths, month.name]
+      })
+      return [...arrOfMonths, ...arrOfMonths];
+      // return arrOfMonths
+    }
+
+
+    const getCasesByYear = (year) => {
+      let indexOfYear = year === '2021' ? 1 : 0 
+      let arrOfCases = [];
+      getCasesByMonth()[indexOfYear].months.map((month) => {
+        let totalCases = 0;
+        month.days.map((day) => {
+          totalCases += day.Cases
+        })
+        arrOfCases = [...arrOfCases, totalCases]
+        })
+      return arrOfCases
+    }
+
+    const getAllCases = () => {
+      let arrOfCases = [];
+      getCasesByMonth().map((year) => {
+        year.months.map((month) => {
+          let totalCases = 0;
+          month.days.map((day) => {
+            totalCases += day.Cases
+          })
+          arrOfCases=[...arrOfCases, totalCases]
+        })
+      })
+      return arrOfCases
+    }
 
     return (
       <Fragment>
           <div className="flex justify-around items-center">
+            <ChartCard 
+              getCases={getAllCases}
+              getMonths={getMonths}
+              year={'2020-2021'}
+            />
 
+            {/* <ChartCard 
+              getCases={getCasesByYear}
+              getMonths={getMonths}
+              year={'2020'}
+            />
+            <ChartCard 
+              getCases={getCasesByYear}
+              getMonths={getMonths}
+              year={'2021'}
+            /> */}
           </div>
-
-          {/* <Bar 
-            data={chartData} 
-            options={options}
-            height={500}
-            width= {1000}
-          /> */}
       </Fragment>
     )
 }
