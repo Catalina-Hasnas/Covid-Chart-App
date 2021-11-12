@@ -73,3 +73,11 @@ export const months = [
 ]
 
 export const years = ['2020', '2021'];
+
+export const addYearToMonth = (arrOfMonths, year) => {
+    let arrOfMonthsWithYear = [];
+    arrOfMonths.map((month) => {
+      arrOfMonthsWithYear = [...arrOfMonthsWithYear, month+' '+year]
+    })
+    return arrOfMonthsWithYear;
+}

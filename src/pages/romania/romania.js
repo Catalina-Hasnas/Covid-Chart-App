@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import { useLocation } from 'react-router';
 import axios from '../../services/api';
 import { useQuery } from 'react-query';
-import { months, years } from '../../services/const';
+import { months, years, addYearToMonth } from '../../services/const';
 import ChartCard from './chartCard/chartCard';
 
 
@@ -46,15 +46,20 @@ const Romania = () => {
       return yearlyCasesByMonth;
     }
 
-    const getMonths = () => {
+    console.log(getCasesByMonth())
+
+    const getMonths = (nrOfYears) => {
       let arrOfMonths = [];
       months.map((month) => {
         arrOfMonths = [...arrOfMonths, month.name]
       })
-      return [...arrOfMonths, ...arrOfMonths];
-      // return arrOfMonths
-    }
+      console.log(addYearToMonth(arrOfMonths, '2020'));
 
+      if (nrOfYears === 1) {
+        return arrOfMonths
+      }
+      return [...addYearToMonth(arrOfMonths, '2020'), ...addYearToMonth(arrOfMonths, '2021')];
+    }
 
     const getCasesByYear = (year) => {
       let indexOfYear = year === '2021' ? 1 : 0 
@@ -84,27 +89,36 @@ const Romania = () => {
     }
 
     return (
-      <Fragment>
-          <div className="flex justify-around items-center">
-            <ChartCard 
-              getCases={getAllCases}
-              getMonths={getMonths}
-              year={'2020-2021'}
-            />
+    <div className="flex flex-col justify-around items-center">
+      <ChartCard 
+        getCases={getAllCases}
+        getMonths={getMonths}
+        year={'2020-2021'}
+        height={350}
+        width={700}
+      />
 
-            {/* <ChartCard 
-              getCases={getCasesByYear}
-              getMonths={getMonths}
-              year={'2020'}
-            />
-            <ChartCard 
-              getCases={getCasesByYear}
-              getMonths={getMonths}
-              year={'2021'}
-            /> */}
-          </div>
-      </Fragment>
-    )
+      {/* <div>
+        <ChartCard 
+          getCases={getCasesByYear}
+          getMonths={getMonths}
+          year={'2020'}
+          height={180}
+          // width={350}
+        />
+
+        <ChartCard 
+          getCases={getCasesByYear}
+          getMonths={getMonths}
+          year={'2021'}
+          height={180}
+          // width={700}
+        />
+      </div> */}
+
+      
+    </div>
+  )
 }
 
 export default Romania
