@@ -1,4 +1,4 @@
-# City Events App
+# Covid Chart App
 
 The Covid Chart App is a web application that allows users to see statistical data related to COVID in their countries. It is available in English and Romanian, by using React-intl. Source of information is the public api: [https://api.covid19api.com](https://api.covid19api.com) 
 
